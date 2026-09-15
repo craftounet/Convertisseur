@@ -1,0 +1,697 @@
+// =====================================================
+// CONVERTISSEUR UNIVERSEL
+// BASES 2 À 36
+// =====================================================
+
+
+// =====================================================
+// ELEMENTS HTML
+// =====================================================
+
+const input =
+    document.getElementById("input");
+
+const inputBase =
+    document.getElementById("inputBase");
+
+const outputBase =
+    document.getElementById("outputBase");
+
+const convertButton =
+    document.getElementById("convert");
+
+const clearButton =
+    document.getElementById("clear");
+
+const swapButton =
+    document.getElementById("swap");
+
+const byteMode =
+    document.getElementById("byteMode");
+
+const groupBytes =
+    document.getElementById("groupBytes");
+
+const result =
+    document.getElementById("result");
+
+const error =
+    document.getElementById("error");
+
+const mainResult =
+    document.getElementById("mainResult");
+
+const decimalResult =
+    document.getElementById("decimalResult");
+
+const binaryResult =
+    document.getElementById("binaryResult");
+
+const octalResult =
+    document.getElementById("octalResult");
+
+const hexResult =
+    document.getElementById("hexResult");
+
+const bitsResult =
+    document.getElementById("bitsResult");
+
+const overflow =
+    document.getElementById("overflow");
+
+const ok =
+    document.getElementById("ok");
+
+
+// =====================================================
+// CHIFFRES DISPONIBLES
+// =====================================================
+//
+// Base 2  : 0-1
+// Base 10 : 0-9
+// Base 16 : 0-9 A-F
+// Base 36 : 0-9 A-Z
+//
+
+const digits =
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+
+// =====================================================
+// TEXTE → NOMBRE
+// =====================================================
+
+function parseNumber(value, base) {
+
+    value = value.trim();
+
+
+    // Vérification
+    if (value === "") {
+
+        throw new Error(
+            "Veuillez entrer un nombre."
+        );
+
+    }
+
+
+    // Gestion du signe -
+    let negative = false;
+
+    if (value.startsWith("-")) {
+
+        negative = true;
+
+        value =
+            value.substring(1);
+
+    }
+
+
+    if (value === "") {
+
+        throw new Error(
+            "Nombre invalide."
+        );
+
+    }
+
+
+    let number = 0n;
+
+    const bigBase =
+        BigInt(base);
+
+
+    // Lecture de chaque caractère
+    for (
+        let i = 0;
+        i < value.length;
+        i++
+    ) {
+
+        const character =
+            value[i].toUpperCase();
+
+
+        const digit =
+            digits.indexOf(character);
+
+
+        // Caractère inconnu
+        if (digit === -1) {
+
+            throw new Error(
+                `Le caractère "${value[i]}" est invalide.`
+            );
+
+        }
+
+
+        // Chiffre impossible dans la base
+        if (digit >= base) {
+
+            throw new Error(
+                `"${value[i]}" n'existe pas en base ${base}.`
+            );
+
+        }
+
+
+        // Calcul
+        number =
+            number * bigBase +
+            BigInt(digit);
+
+    }
+
+
+    if (negative) {
+
+        number = -number;
+
+    }
+
+
+    return number;
+
+}
+
+
+// =====================================================
+// NOMBRE → BASE
+// =====================================================
+
+function toBase(number, base) {
+
+    // Cas zéro
+    if (number === 0n) {
+
+        return "0";
+
+    }
+
+
+    let negative = false;
+
+
+    // Nombre négatif
+    if (number < 0n) {
+
+        negative = true;
+
+        number = -number;
+
+    }
+
+
+    const bigBase =
+        BigInt(base);
+
+
+    let result = "";
+
+
+    // Conversion
+    while (number > 0n) {
+
+        const remainder =
+            Number(
+                number % bigBase
+            );
+
+
+        result =
+            digits[remainder] +
+            result;
+
+
+        number =
+            number / bigBase;
+
+    }
+
+
+    if (negative) {
+
+        result =
+            "-" + result;
+
+    }
+
+
+    return result;
+
+}
+
+
+// =====================================================
+// GROUPER LE BINAIRE PAR 8
+// =====================================================
+
+function groupBinary(binary) {
+
+    if (binary === "0") {
+
+        return "00000000";
+
+    }
+
+
+    let negative = false;
+
+
+    if (binary.startsWith("-")) {
+
+        negative = true;
+
+        binary =
+            binary.substring(1);
+
+    }
+
+
+    // Calcul du nombre de zéros
+    const remainder =
+        binary.length % 8;
+
+
+    if (remainder !== 0) {
+
+        binary =
+            "0".repeat(
+                8 - remainder
+            ) + binary;
+
+    }
+
+
+    const groups = [];
+
+
+    // Découpage
+    for (
+        let i = 0;
+        i < binary.length;
+        i += 8
+    ) {
+
+        groups.push(
+            binary.substring(
+                i,
+                i + 8
+            )
+        );
+
+    }
+
+
+    let result =
+        groups.join(" ");
+
+
+    if (negative) {
+
+        result =
+            "-" + result;
+
+    }
+
+
+    return result;
+
+}
+
+
+// =====================================================
+// CONVERSION PRINCIPALE
+// =====================================================
+
+function convert() {
+
+    // Nettoyage
+    error.textContent = "";
+
+    overflow.classList.remove("show");
+
+    ok.classList.remove("show");
+
+
+    const value =
+        input.value.trim();
+
+
+    if (value === "") {
+
+        showError(
+            "Veuillez entrer un nombre."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        // Bases
+        const fromBase =
+            Number(
+                inputBase.value
+            );
+
+        const destinationBase =
+            Number(
+                outputBase.value
+            );
+
+
+        // =============================================
+        // CONVERSION
+        // =============================================
+
+        const number =
+            parseNumber(
+                value,
+                fromBase
+            );
+
+
+        // =============================================
+        // RESULTAT PRINCIPAL
+        // =============================================
+
+        const converted =
+            toBase(
+                number,
+                destinationBase
+            );
+
+
+        mainResult.textContent =
+            converted;
+
+
+        // =============================================
+        // DECIMAL
+        // =============================================
+
+        const decimal =
+            toBase(number, 10);
+
+        decimalResult.textContent =
+            decimal;
+
+
+        // =============================================
+        // BINAIRE
+        // =============================================
+
+        const binary =
+            toBase(number, 2);
+
+
+        if (groupBytes.checked) {
+
+            binaryResult.textContent =
+                groupBinary(binary);
+
+        } else {
+
+            binaryResult.textContent =
+                binary;
+
+        }
+
+
+        // =============================================
+        // OCTAL
+        // =============================================
+
+        octalResult.textContent =
+            toBase(number, 8);
+
+
+        // =============================================
+        // HEXADECIMAL
+        // =============================================
+
+        hexResult.textContent =
+            toBase(number, 16);
+
+
+        // =============================================
+        // NOMBRE DE BITS
+        // =============================================
+
+        let absolute =
+            number < 0n
+                ? -number
+                : number;
+
+
+        let bits;
+
+
+        if (absolute === 0n) {
+
+            bits = 1;
+
+        } else {
+
+            bits =
+                absolute
+                    .toString(2)
+                    .length;
+
+        }
+
+
+        bitsResult.textContent =
+            bits +
+            (bits > 1
+                ? " bits"
+                : " bit");
+
+
+        // =============================================
+        // MODE OCTET
+        // =============================================
+
+        if (byteMode.checked) {
+
+            // Un octet = 0 à 255
+            if (
+                number >= 0n &&
+                number <= 255n
+            ) {
+
+                ok.classList.add("show");
+
+            } else {
+
+                overflow.classList.add("show");
+
+            }
+
+        }
+
+
+        // =============================================
+        // AFFICHER LE RESULTAT
+        // =============================================
+
+        result.classList.add("show");
+
+    }
+
+    catch (e) {
+
+        showError(
+            e.message
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// ERREUR
+// =====================================================
+
+function showError(message) {
+
+    error.textContent =
+        message;
+
+    result.classList.remove(
+        "show"
+    );
+
+}
+
+
+// =====================================================
+// EFFACER
+// =====================================================
+
+function clearAll() {
+
+    input.value = "";
+
+    error.textContent = "";
+
+    result.classList.remove(
+        "show"
+    );
+
+    overflow.classList.remove(
+        "show"
+    );
+
+    ok.classList.remove(
+        "show"
+    );
+
+    input.focus();
+
+}
+
+
+// =====================================================
+// INVERSER LES BASES
+// =====================================================
+
+function swapBases() {
+
+    const oldInput =
+        inputBase.value;
+
+
+    inputBase.value =
+        outputBase.value;
+
+
+    outputBase.value =
+        oldInput;
+
+
+    // Reconvertir si un nombre est présent
+    if (
+        input.value.trim() !== ""
+    ) {
+
+        convert();
+
+    }
+
+}
+
+
+// =====================================================
+// EVENEMENTS
+// =====================================================
+
+
+// Bouton convertir
+convertButton.addEventListener(
+    "click",
+    convert
+);
+
+
+// Bouton effacer
+clearButton.addEventListener(
+    "click",
+    clearAll
+);
+
+
+// Bouton inversion
+swapButton.addEventListener(
+    "click",
+    swapBases
+);
+
+
+// Touche Entrée
+input.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            convert();
+
+        }
+
+    }
+);
+
+
+// Mode octet
+byteMode.addEventListener(
+    "change",
+    function() {
+
+        if (
+            input.value.trim() !== ""
+        ) {
+
+            convert();
+
+        }
+
+    }
+);
+
+
+// Groupement des bits
+groupBytes.addEventListener(
+    "change",
+    function() {
+
+        if (
+            input.value.trim() !== ""
+        ) {
+
+            convert();
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// BOUTONS DE BASES RAPIDES
+// =====================================================
+
+document
+    .querySelectorAll(
+        ".quick-buttons button"
+    )
+    .forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    inputBase.value =
+                        button.dataset.in;
+
+
+                    outputBase.value =
+                        button.dataset.out;
+
+
+                    input.focus();
+
+                }
+            );
+
+        }
+    );
