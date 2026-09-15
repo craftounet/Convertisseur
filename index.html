@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Convertisseur Universel</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <main class="box">
+
+        <!-- ==============================
+             EN-TÊTE
+        =============================== -->
+
+        <header class="header">
+
+            <div class="logo">
+                01
+            </div>
+
+            <div>
+
+                <h1>
+                    Convertisseur Universel
+                </h1>
+
+                <p class="subtitle">
+                    Conversion entre les bases numériques
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ==============================
+             CONVERSION
+        =============================== -->
+
+        <section class="conversion-card">
+
+            <div class="conversion-row">
+
+
+                <!-- NOMBRE -->
+
+                <div class="field">
+
+                    <label for="input">
+                        Nombre
+                    </label>
+
+                    <input
+                        type="text"
+                        id="input"
+                        placeholder="Exemple : 255"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- INVERSION -->
+
+                <button
+                    type="button"
+                    class="swap"
+                    id="swap"
+                    title="Inverser les bases"
+                >
+                    ⇄
+                </button>
+
+
+                <!-- BASE DE SORTIE -->
+
+                <div class="field">
+
+                    <label for="outputBase">
+                        Base de sortie
+                    </label>
+
+                    <select id="outputBase">
+
+                        <option value="2">
+                            Base 2 — Binaire
+                        </option>
+
+                        <option value="3">
+                            Base 3
+                        </option>
+
+                        <option value="4">
+                            Base 4
+                        </option>
+
+                        <option value="5">
+                            Base 5
+                        </option>
+
+                        <option value="6">
+                            Base 6
+                        </option>
+
+                        <option value="7">
+                            Base 7
+                        </option>
+
+                        <option value="8">
+                            Base 8 — Octal
+                        </option>
+
+                        <option value="9">
+                            Base 9
+                        </option>
+
+                        <option value="10" selected>
+                            Base 10 — Décimal
+                        </option>
+
+                        <option value="11">Base 11</option>
+                        <option value="12">Base 12</option>
+                        <option value="13">Base 13</option>
+                        <option value="14">Base 14</option>
+                        <option value="15">Base 15</option>
+
+                        <option value="16">
+                            Base 16 — Hexadécimal
+                        </option>
+
+                        <option value="17">Base 17</option>
+                        <option value="18">Base 18</option>
+                        <option value="19">Base 19</option>
+                        <option value="20">Base 20</option>
+                        <option value="21">Base 21</option>
+                        <option value="22">Base 22</option>
+                        <option value="23">Base 23</option>
+                        <option value="24">Base 24</option>
+                        <option value="25">Base 25</option>
+                        <option value="26">Base 26</option>
+                        <option value="27">Base 27</option>
+                        <option value="28">Base 28</option>
+                        <option value="29">Base 29</option>
+                        <option value="30">Base 30</option>
+                        <option value="31">Base 31</option>
+                        <option value="32">Base 32</option>
+                        <option value="33">Base 33</option>
+                        <option value="34">Base 34</option>
+                        <option value="35">Base 35</option>
+                        <option value="36">Base 36</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- BASE D'ENTRÉE -->
+
+            <div class="field input-base">
+
+                <label for="inputBase">
+                    Base du nombre entré
+                </label>
+
+                <select id="inputBase">
+
+                    <option value="2">
+                        Base 2 — Binaire
+                    </option>
+
+                    <option value="3">Base 3</option>
+                    <option value="4">Base 4</option>
+                    <option value="5">Base 5</option>
+                    <option value="6">Base 6</option>
+                    <option value="7">Base 7</option>
+
+                    <option value="8">
+                        Base 8 — Octal
+                    </option>
+
+                    <option value="9">Base 9</option>
+
+                    <option value="10" selected>
+                        Base 10 — Décimal
+                    </option>
+
+                    <option value="11">Base 11</option>
+                    <option value="12">Base 12</option>
+                    <option value="13">Base 13</option>
+                    <option value="14">Base 14</option>
+                    <option value="15">Base 15</option>
+
+                    <option value="16">
+                        Base 16 — Hexadécimal
+                    </option>
+
+                    <option value="17">Base 17</option>
+                    <option value="18">Base 18</option>
+                    <option value="19">Base 19</option>
+                    <option value="20">Base 20</option>
+                    <option value="21">Base 21</option>
+                    <option value="22">Base 22</option>
+                    <option value="23">Base 23</option>
+                    <option value="24">Base 24</option>
+                    <option value="25">Base 25</option>
+                    <option value="26">Base 26</option>
+                    <option value="27">Base 27</option>
+                    <option value="28">Base 28</option>
+                    <option value="29">Base 29</option>
+                    <option value="30">Base 30</option>
+                    <option value="31">Base 31</option>
+                    <option value="32">Base 32</option>
+                    <option value="33">Base 33</option>
+                    <option value="34">Base 34</option>
+                    <option value="35">Base 35</option>
+                    <option value="36">Base 36</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- BOUTON CONVERTIR -->
+
+            <button
+                type="button"
+                class="convert"
+                id="convert"
+            >
+                Convertir
+            </button>
+
+        </section>
+
+
+        <!-- ==============================
+             OPTIONS
+        =============================== -->
+
+        <section class="options-card">
+
+            <div class="section-title">
+                ⚙ Options
+            </div>
+
+
+            <label class="checkbox">
+
+                <input
+                    type="checkbox"
+                    id="byteMode"
+                >
+
+                <span>
+                    <strong>Mode octet</strong>
+
+                    <small>
+                        Vérifie si la valeur tient sur 8 bits
+                    </small>
+                </span>
+
+            </label>
+
+
+            <label class="checkbox">
+
+                <input
+                    type="checkbox"
+                    id="groupBytes"
+                    checked
+                >
+
+                <span>
+                    <strong>Grouper le binaire</strong>
+
+                    <small>
+                        Sépare les bits par groupes de 8
+                    </small>
+                </span>
+
+            </label>
+
+        </section>
+
+
+        <!-- ==============================
+             BASES RAPIDES
+        =============================== -->
+
+        <section class="quick-section">
+
+            <div class="section-title">
+                Bases rapides
+            </div>
+
+            <div class="quick-buttons">
+
+                <button
+                    type="button"
+                    data-in="2"
+                    data-out="10"
+                >
+                    Binaire → Décimal
+                </button>
+
+                <button
+                    type="button"
+                    data-in="10"
+                    data-out="2"
+                >
+                    Décimal → Binaire
+                </button>
+
+                <button
+                    type="button"
+                    data-in="16"
+                    data-out="10"
+                >
+                    Hex → Décimal
+                </button>
+
+                <button
+                    type="button"
+                    data-in="10"
+                    data-out="16"
+                >
+                    Décimal → Hex
+                </button>
+
+                <button
+                    type="button"
+                    data-in="2"
+                    data-out="16"
+                >
+                    Binaire → Hex
+                </button>
+
+                <button
+                    type="button"
+                    data-in="16"
+                    data-out="2"
+                >
+                    Hex → Binaire
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             ERREUR
+        =============================== -->
+
+        <div
+            class="error"
+            id="error"
+        ></div>
+
+
+        <!-- ==============================
+             RÉSULTATS
+        =============================== -->
+
+        <section
+            class="result"
+            id="result"
+        >
+
+            <div class="result-header">
+
+                <div>
+
+                    <div class="result-label">
+                        Résultat
+                    </div>
+
+                    <h2>
+                        Conversion terminée
+                    </h2>
+
+                </div>
+
+                <div class="status-dot"></div>
+
+            </div>
+
+
+            <!-- RÉSULTAT PRINCIPAL -->
+
+            <div class="main-result">
+
+                <span>
+                    Valeur convertie
+                </span>
+
+                <strong id="mainResult">
+                    -
+                </strong>
+
+            </div>
+
+
+            <!-- VALEURS -->
+
+            <div class="values">
+
+
+                <div class="value-card">
+
+                    <span>
+                        Décimal
+                    </span>
+
+                    <strong id="decimalResult">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="value-card">
+
+                    <span>
+                        Binaire
+                    </span>
+
+                    <strong id="binaryResult">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="value-card">
+
+                    <span>
+                        Octal
+                    </span>
+
+                    <strong id="octalResult">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="value-card">
+
+                    <span>
+                        Hexadécimal
+                    </span>
+
+                    <strong id="hexResult">
+                        -
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- INFORMATIONS -->
+
+            <div class="info">
+
+                <div>
+
+                    <span>
+                        Taille
+                    </span>
+
+                    <strong id="bitsResult">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- OVERFLOW -->
+
+            <div
+                class="overflow"
+                id="overflow"
+            >
+
+                <div class="alert-icon">
+                    !
+                </div>
+
+                <div>
+
+                    <strong>
+                        OVERFLOW
+                    </strong>
+
+                    <p>
+                        Cette valeur dépasse 255 et
+                        nécessite plus de 8 bits.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- OK -->
+
+            <div
+                class="ok"
+                id="ok"
+            >
+
+                <div class="success-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <strong>
+                        Valeur compatible avec un octet
+                    </strong>
+
+                    <p>
+                        La valeur est comprise entre 0 et 255.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             BOUTON EFFACER
+        =============================== -->
+
+        <button
+            type="button"
+            class="clear"
+            id="clear"
+        >
+            Effacer
+        </button>
+
+
+        <!-- ==============================
+             PIED DE PAGE
+        =============================== -->
+
+        <footer>
+
+            <span>
+                Convertisseur Universel
+            </span>
+
+            <span>
+                Bases 2 → 36
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
